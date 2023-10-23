@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  rest-service-web:
+    build: .
+    ports:
+      - 3000:3000
+    hostname: tubes-rest-service
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - rest-service-db
+  rest-service-db:
+    build: ./database
+    ports:
+      - 5439:5432
+    hostname: tubes-rest-db
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
