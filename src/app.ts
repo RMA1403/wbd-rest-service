@@ -3,6 +3,7 @@ import cors from "cors";
 import { DummyRouter } from "./routers/dummyRouter";
 import { PrismaClient } from "@prisma/client";
 import { EpisodeRouter } from "./routers/episodeRouter";
+import { PodcastRouter } from "./routers/podcastRouter";
 
 export class App {
   private _port: number = 3000;
@@ -14,12 +15,14 @@ export class App {
 
     const dummyRouter = new DummyRouter();
     const episodeRouter = new EpisodeRouter();
+    const podcastRouter = new PodcastRouter();
 
     this.server.use(
       cors(),
       express.json(),
       dummyRouter.getRoute(),
-      episodeRouter.getRoute()
+      episodeRouter.getRoute(),
+      podcastRouter.getRoute()
     );
   }
 

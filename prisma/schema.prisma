@@ -7,8 +7,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model DummyTable {
-  @@map("dummy_table")
+enum Category {
+  TECHNOLOGY
+  COMEDY
+  HORROR
+}
 
+model DummyTable {
   description String @unique
+
+  @@map("dummy_table")
+}
+
+model PremiumPodcasts {
+  idPodcast    Int      @id
+  title        String
+  urlThumbnail String
+  description  String
+  category     Category
+
+  @@map("premium_podcasts")
 }
