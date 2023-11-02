@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { PodcastController } from "../controllers/podcastController";
+import AuthMiddleware from "../middlewares/authMiddleware";
 
 export class PodcastRouter {
   podcastController: PodcastController;
@@ -9,6 +10,11 @@ export class PodcastRouter {
   }
 
   getRoute() {
-      return Router().get("/podcast/random/:category", this.podcastController.getRandomPodcasts());
+    return Router()
+      .use("/podcast", new AuthMiddleware().verify())
+      .get(
+        "/podcast/random/:category",
+        this.podcastController.getRandomPodcasts()
+      );
   }
 }
