@@ -12,7 +12,6 @@ export class EpisodeController {
 
       const audioPath = "src/storage/audiotester.mp3";
       const audioSize = fs.statSync(audioPath).size;
-      console.log(audioSize);
 
       const chunkSize = 512 * 10 ** 3;
       const start = Number(range.replace(/\D/g, ""));
