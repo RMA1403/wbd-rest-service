@@ -24,6 +24,10 @@ export class AuthController {
       try {
         const bearerToken = req.headers.authorization?.split(" ")[1] || "";
 
+        if (bearerToken === "") {
+          return res.status(200).json({ message: "error" });
+        }
+
         const token = await verifyToken(bearerToken);
 
         return res.status(200).json({ message: token });

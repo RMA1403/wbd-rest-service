@@ -7,6 +7,20 @@ CREATE TABLE IF NOT EXISTS premium_podcasts (
   description VARCHAR(1000),
   category category
 );
+CREATE TABLE IF NOT EXISTS premium_episodes (
+  id_episode SERIAL PRIMARY KEY,
+  title VARCHAR(50),
+  description VARCHAR(1000),
+  url_thumbnail VARCHAR(100),
+  url_audio VARCHAR(100),
+  id_podcast INT NOT NULL,
+  FOREIGN KEY (id_podcast) REFERENCES premium_podcasts(id_podcast) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS queues (
+  id_queue INT NOT NULL,
+  id_episode INT NOT NULL,
+  FOREIGN KEY (id_episode) REFERENCES premium_episodes(id_episode) ON DELETE CASCADE
+);
 INSERT INTO dummy_table ("description")
 VALUES ('teks ini berasal dari database :o');
 INSERT INTO premium_podcasts (title, url_thumbnail, description, category)
