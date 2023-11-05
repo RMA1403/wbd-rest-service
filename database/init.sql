@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS premium_episodes (
 CREATE TABLE IF NOT EXISTS queues (
   id_queue INT NOT NULL,
   id_episode INT NOT NULL,
+  position INT NOT NULL,
   FOREIGN KEY (id_episode) REFERENCES premium_episodes(id_episode) ON DELETE CASCADE
 );
 INSERT INTO dummy_table ("description")

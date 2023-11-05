@@ -20,34 +20,35 @@ model DummyTable {
 }
 
 model PremiumPodcast {
-  idPodcast      Int              @id
-  title          String
-  urlThumbnail   String
-  description    String
-  category       Category
+  id_podcast     Int              @id
+  title          String?
+  url_thumbnail  String?
+  description    String?
+  category       Category?
   PremiumEpisode PremiumEpisode[]
 
   @@map("premium_podcasts")
 }
 
 model PremiumEpisode {
-  idEpisode    Int            @id
-  title        String
-  description  String
-  urlThumbnail String
-  urlAudio     String
-  Podcast      PremiumPodcast @relation(fields: [idPodcast], references: [idPodcast], onDelete: Cascade)
-  idPodcast    Int
-  Queue        Queue[]
+  id_episode    Int            @id
+  title         String?
+  description   String?
+  url_thumbnail String?
+  url_audio     String?
+  Podcast       PremiumPodcast @relation(fields: [id_podcast], references: [id_podcast], onDelete: Cascade)
+  id_podcast    Int
+  Queue         Queue[]
 
   @@map("premium_episodes")
 }
 
 model Queue {
-  idQueue   Int
-  Episode   PremiumEpisode @relation(fields: [idEpisode], references: [idEpisode], onDelete: Cascade)
-  idEpisode Int
+  id_queue   Int
+  Episode    PremiumEpisode @relation(fields: [id_episode], references: [id_episode], onDelete: Cascade)
+  id_episode Int
+  position   Int
 
-  @@id([idQueue, idEpisode])
+  @@id([id_queue, id_episode])
   @@map("queues")
 }
