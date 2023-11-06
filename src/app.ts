@@ -25,6 +25,7 @@ export class App {
       cors(),
       express.json(),
       express.urlencoded(),
+      express.static("src/storage"),
       dummyRouter.getRoute(),
       episodeRouter.getRoute(),
       podcastRouter.getRoute(),

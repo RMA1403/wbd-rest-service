@@ -49,6 +49,6 @@ model Queue {
   id_episode Int
   position   Int
 
-  @@id([id_queue, id_episode])
+  @@id([id_queue, position])
   @@map("queues")
 }

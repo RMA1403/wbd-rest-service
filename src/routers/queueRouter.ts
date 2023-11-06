@@ -13,9 +13,11 @@ export class QueueRouter {
     return Router()
       .use("/queue", new AuthMiddleware().verify())
       .get("/queue", this.queueController.getUserQueue())
-      .post(
-        "/queue/podcast",
-        this.queueController.addPodcastToQueue()
-      );
+      .get("/queue/current", this.queueController.getOneQueue("CURRENT"))
+      .get("/queue/next", this.queueController.getOneQueue("NEXT"))
+      .get("/queue/previous", this.queueController.getOneQueue("PREV"))
+      .post("/queue/podcast", this.queueController.addPodcastToQueue())
+      .post("/queue/forward", this.queueController.moveForward())
+      .post("/queue/backward", this.queueController.moveBackward());
   }
 }
