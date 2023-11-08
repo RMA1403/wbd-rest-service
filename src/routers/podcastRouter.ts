@@ -11,4 +11,8 @@ export class PodcastRouter {
   getRoute() {
       return Router().get("/podcast/random/:category", this.podcastController.getRandomPodcasts());
   }
+
+  // getSearch() {
+  //     return Router().get("/search", this.podcastController.getPodcast());
+  // }
 }

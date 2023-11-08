@@ -13,7 +13,7 @@ services:
   rest-service-db:
     build: ./database
     ports:
-      - 5439:5432
+      - 5432:5432
     hostname: tubes-rest-db
     env_file:
       - .env
@@ -21,3 +21,4 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_NAME}
+      - CHOKIDAR_USEPOLLING=true

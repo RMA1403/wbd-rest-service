@@ -4,6 +4,7 @@ import { DummyRouter } from "./routers/dummyRouter";
 import { PrismaClient } from "@prisma/client";
 import { EpisodeRouter } from "./routers/episodeRouter";
 import { PodcastRouter } from "./routers/podcastRouter";
+import seed from "../prisma/seed";
 
 export class App {
   private _port: number = 3000;
@@ -23,12 +24,16 @@ export class App {
       dummyRouter.getRoute(),
       episodeRouter.getRoute(),
       podcastRouter.getRoute()
+      // podcastRouter.getSearch()
     );
   }
 
+
   run() {
-    this.server.listen(this._port, () =>
-      console.log(`listening on port ${this._port}`)
+    seed().then(() => 
+      this.server.listen(this._port, () =>
+        console.log(`listening on port ${this._port}`)
+      )
     );
   }
 }

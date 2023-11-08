@@ -4,8 +4,8 @@ import { App } from "../app";
 export class DummyController {
   getDummyData() {
     return async (req: Request, res: Response) => {
-      const data = await App.prismaClient.dummyTable.findMany();
-      res.send(data[0])
+      const data = await App.prismaClient.premiumEpisodes.findMany();
+      res.send(data)
     }
   }
 }

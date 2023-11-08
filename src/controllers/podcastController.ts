@@ -6,7 +6,7 @@ export class PodcastController {
     return async (req: Request, res: Response) => {
       const { category } = req.params;
 
-      if (!["technology", "comedy", "horror"].includes(category)) {
+      if (!["TECHNOLOGY", "COMEDY", "HORROR"].includes(category)) {
         res.status(400).send({ message: "Invalid category" });
         return;
       }
@@ -21,4 +21,13 @@ export class PodcastController {
       return res.status(200).send({ podcasts: result });
     };
   }
+
+  // getPodcast() {
+  //   return async (req: Request, res: Response) => {
+      
+  //     const result = await App.prismaClient.premiumUsers.findMany();
+
+  //     return res.status(200).send({ podcast: result[0] });
+  //   };
+  // }
 }
