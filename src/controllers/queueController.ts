@@ -19,7 +19,7 @@ export class QueueController {
               title: true,
               description: true,
               url_thumbnail: true,
-              Podcast: {
+              PremiumPodcast: {
                 select: {
                   title: true,
                 },
@@ -38,7 +38,7 @@ export class QueueController {
       const { idPodcast, idUser } = req.body;
 
       const [episodes, positions] = await Promise.all([
-        App.prismaClient.premiumEpisode.findMany({
+        App.prismaClient.premiumEpisodes.findMany({
           where: {
             id_podcast: idPodcast,
           },

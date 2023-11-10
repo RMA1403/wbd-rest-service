@@ -50,8 +50,8 @@ model PremiumEpisodes {
   id_episode     Int             @id @default(autoincrement())
   title          String          @db.VarChar(50)
   description    String          @db.VarChar(1000)
-  urlThumbnail   String          @db.VarChar(100)
-  urlAudio       String          @db.VarChar(100)
+  url_thumbnail   String          @db.VarChar(100)
+  url_audio       String          @db.VarChar(100)
   PremiumPodcast PremiumPodcasts @relation(fields: [id_podcast], references: [id_podcast], onDelete: Cascade)
   id_podcast     Int
   Queue          Queue[]

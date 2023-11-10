@@ -5,4 +5,4 @@ RUN npm install
 COPY . .
 RUN npx prisma generate
 EXPOSE 3000
-CMD ["npx", "nodemon", "-L", "./src/index.ts"]
+CMD ["npx", "nodemon", "./src/index.ts"]
