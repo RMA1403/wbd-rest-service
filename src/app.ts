@@ -31,12 +31,30 @@ export class App {
     );
   }
 
+  async isSeed() {
+    const premiumUsersCount = await App.prismaClient.premiumUsers.count();
+
+    if (premiumUsersCount === 0) {
+     return false;
+    } 
+
+    return true;
+  }
+
 
   run() {
-    seed().then(() => 
-      this.server.listen(this._port, () =>
-        console.log(`listening on port ${this._port}`)
-      )
-    );
+    this.isSeed().then((isSeed) => {
+      if (!isSeed) {
+        seed().then(() => {
+          this.server.listen(this._port, () =>
+            console.log(`listening on port ${this._port}`)
+          );
+        });
+      } else {
+        this.server.listen(this._port, () =>
+          console.log(`listening on port ${this._port}`)
+        );
+      }
+    });
   }
 }
