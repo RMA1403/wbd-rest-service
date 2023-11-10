@@ -15,8 +15,9 @@ export default class AuthMiddleware {
           return res.status(401).json({ message: "invalid token" });
         }
 
-        await verifyToken(bearerToken);
+        const token = await verifyToken(bearerToken);
 
+        req.body.idUser = (token as any).data;
         next();
       } catch (err) {
         return res.status(401).json({ message: "invalid token" });
