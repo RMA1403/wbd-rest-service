@@ -6,6 +6,7 @@ import { EpisodeRouter } from "./routers/episodeRouter";
 import { PodcastRouter } from "./routers/podcastRouter";
 import seed from "../prisma/seed";
 import { AuthRouter } from "./routers/authRouter";
+import { QueueRouter } from "./routers/queueRouter";
 
 export class App {
   private _port: number = 3000;
@@ -19,15 +20,18 @@ export class App {
     const episodeRouter = new EpisodeRouter();
     const podcastRouter = new PodcastRouter();
     const authRouter = new AuthRouter();
+    const queueRouter = new QueueRouter();
 
     this.server.use(
       cors(),
       express.json(),
       express.urlencoded(),
+      express.static("src/storage"),
       dummyRouter.getRoute(),
       episodeRouter.getRoute(),
       podcastRouter.getRoute(),
-      authRouter.getRoute()
+      authRouter.getRoute(),
+      queueRouter.getRoute()
     );
   }
 

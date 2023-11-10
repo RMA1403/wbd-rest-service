@@ -20,12 +20,12 @@ model DummyTable {
 }
 
 model PremiumUsers {
-  id_user          Int               @id @default(autoincrement())
+  id_user         Int               @id @default(autoincrement())
   name            String            @db.VarChar(50)
   username        String            @unique @db.VarChar(50)
   password        String            @db.VarChar(255)
   url_profpic     String            @db.VarChar(100)
-  is_admin         Boolean           @default(false)
+  is_admin        Boolean           @default(false)
   PremiumPodcasts PremiumPodcasts[]
   PremiumPlaylist PremiumPlaylist[]
 
@@ -33,60 +33,60 @@ model PremiumUsers {
 }
 
 model PremiumPodcasts {
-  id_podcast       Int               @id @default(autoincrement())
-  title           String            @db.VarChar(50)
-  url_thumbnail    String            @db.VarChar(100)
-  description     String            @db.VarChar(1000)
-  category        Category
-  user            PremiumUsers      @relation(fields: [id_user], references: [id_user], onDelete: Cascade)
-  id_user          Int
-  PremiumEpisodes PremiumEpisodes[]
+  id_podcast              Int                       @id @default(autoincrement())
+  title                   String                    @db.VarChar(50)
+  url_thumbnail           String                    @db.VarChar(100)
+  description             String                    @db.VarChar(1000)
+  category                Category
+  user                    PremiumUsers              @relation(fields: [id_user], references: [id_user], onDelete: Cascade)
+  id_user                 Int
+  PremiumEpisodes         PremiumEpisodes[]
   PremiumPlaylistxPodcast PremiumPlaylistxPodcast[]
 
   @@map("premium_podcasts")
 }
 
 model PremiumEpisodes {
-  id_episode      Int             @id @default(autoincrement())
+  id_episode     Int             @id @default(autoincrement())
   title          String          @db.VarChar(50)
   description    String          @db.VarChar(1000)
   urlThumbnail   String          @db.VarChar(100)
   urlAudio       String          @db.VarChar(100)
   PremiumPodcast PremiumPodcasts @relation(fields: [id_podcast], references: [id_podcast], onDelete: Cascade)
-  id_podcast      Int
-  Queue           Queue[]
+  id_podcast     Int
+  Queue          Queue[]
 
   @@map("premium_episodes")
 }
 
 model PremiumPlaylist {
-  id_playlist Int          @id @default(autoincrement())
-  title      String       @db.VarChar(50)
-  user       PremiumUsers @relation(fields: [id_user], references: [id_user], onDelete: Cascade)
-  id_user     Int
+  id_playlist             Int                       @id @default(autoincrement())
+  title                   String                    @db.VarChar(50)
+  user                    PremiumUsers              @relation(fields: [id_user], references: [id_user], onDelete: Cascade)
+  id_user                 Int
   PremiumPlaylistxPodcast PremiumPlaylistxPodcast[]
 
   @@map("premium_playlist")
 }
 
-model PremiumPlaylistxPodcast {
-  playlist     PremiumPlaylist @relation(fields: [id_playlist], references: [id_playlist], onDelete: Cascade)
-  podcast      PremiumPodcasts @relation(fields: [id_podcast], references: [id_podcast], onDelete: Cascade)
-  id_playlist   Int  
-  id_podcast    Int 
-  
-  @@id([id_playlist, id_podcast])
-  @@map("premium_playlist_x_podcast")
-}
-
 model Queue {
-  id_queue Int  
-  Episodes PremiumEpisodes @relation(fields: [id_episode], references: [id_episode], onDelete: Cascade)
+  id_queue   Int
+  Episode    PremiumEpisodes @relation(fields: [id_episode], references: [id_episode], onDelete: Cascade)
   id_episode Int
-  position Int
+  position   Int
 
   @@id([id_queue, position])
-  @@map("queue")
+  @@map("queues")
+}
+
+model PremiumPlaylistxPodcast {
+  playlist    PremiumPlaylist @relation(fields: [id_playlist], references: [id_playlist], onDelete: Cascade)
+  podcast     PremiumPodcasts @relation(fields: [id_podcast], references: [id_podcast], onDelete: Cascade)
+  id_playlist Int
+  id_podcast  Int
+
+  @@id([id_playlist, id_podcast])
+  @@map("premium_playlist_x_podcast")
 }
 
 // npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > database/init.sql
