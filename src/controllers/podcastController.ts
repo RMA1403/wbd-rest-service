@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { App } from "../app";
+import { Prisma } from "@prisma/client";
+import { Category } from '@prisma/client'; 
 
 export class PodcastController {
   getRandomPodcasts() {
@@ -22,12 +24,30 @@ export class PodcastController {
     };
   }
 
-  // getPodcast() {
-  //   return async (req: Request, res: Response) => {
-      
-  //     const result = await App.prismaClient.premiumUsers.findMany();
+  getPodcastByFilter() {
+    return async (req: Request, res: Response) => {
+      const { keyword, genre, eps } = req.params;
 
-  //     return res.status(200).send({ podcast: result[0] });
-  //   };
-  // }
+      const result = await App.prismaClient.premiumPodcasts.findMany({
+        where: {
+          OR: [
+            {
+              title: {
+                contains: keyword,
+              },
+            },
+            {
+              description: {
+                contains: keyword,
+              },
+            },
+          ],
+          category: genre as Category,
+        },
+        include: {PremiumEpisodes: true},
+      });
+
+      return res.status(200).send({ podcasts: result });
+    };
+  }
 }
