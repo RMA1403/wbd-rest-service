@@ -23,4 +23,30 @@ export class PodcastController {
       return res.status(200).send({ podcasts: result });
     };
   }
+  getPodcastByFilter() {
+    return async (req: Request, res: Response) => {
+      const { keyword, genre, eps } = req.params;
+
+      const result = await App.prismaClient.premiumPodcasts.findMany({
+        where: {
+          OR: [
+            {
+              title: {
+                contains: keyword,
+              },
+            },
+            {
+              description: {
+                contains: keyword,
+              },
+            },
+          ],
+          category: genre as Category,
+        },
+        include: {PremiumEpisodes: true},
+      });
+
+      return res.status(200).send({ podcasts: result });
+    };
+  }
 }
