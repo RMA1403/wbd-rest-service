@@ -43,8 +43,8 @@ export default async function seed() {
                 data: {
                     title: `Episode ${j} of Podcast ${i}`,
                     description: `Description for Episode ${j} of Podcast ${i}`,
-                    urlThumbnail: `/src/assets/episode${i}_${j}.jpg`,
-                    urlAudio: `/src/assets/episode${i}_${j}.mp3`,
+                    url_thumbnail: `/src/assets/episode${i}_${j}.jpg`,
+                    url_audio: `/src/assets/episode${i}_${j}.mp3`,
                     id_podcast: i,
                 },
             });

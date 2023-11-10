@@ -14,7 +14,7 @@ export class PodcastController {
       }
 
       const result = await App.prismaClient.$queryRawUnsafe(`
-        SELECT title, description, url_thumbnail AS imageURL FROM premium_podcasts
+        SELECT id_podcast AS idPodcast, title, description, url_thumbnail AS imageURL FROM premium_podcasts
         WHERE category = '${category}'
         ORDER BY random()
         LIMIT 5;
