@@ -35,8 +35,8 @@ CREATE TABLE "premium_episodes" (
     "id_episode" SERIAL NOT NULL,
     "title" VARCHAR(50) NOT NULL,
     "description" VARCHAR(1000) NOT NULL,
-    "urlThumbnail" VARCHAR(100) NOT NULL,
-    "urlAudio" VARCHAR(100) NOT NULL,
+    "url_thumbnail" VARCHAR(100) NOT NULL,
+    "url_audio" VARCHAR(100) NOT NULL,
     "id_podcast" INTEGER NOT NULL,
 
     CONSTRAINT "premium_episodes_pkey" PRIMARY KEY ("id_episode")
@@ -52,20 +52,20 @@ CREATE TABLE "premium_playlist" (
 );
 
 -- CreateTable
+CREATE TABLE "queues" (
+    "id_queue" INTEGER NOT NULL,
+    "id_episode" INTEGER NOT NULL,
+    "position" INTEGER NOT NULL,
+
+    CONSTRAINT "queues_pkey" PRIMARY KEY ("id_queue","position")
+);
+
+-- CreateTable
 CREATE TABLE "premium_playlist_x_podcast" (
     "id_playlist" INTEGER NOT NULL,
     "id_podcast" INTEGER NOT NULL,
 
     CONSTRAINT "premium_playlist_x_podcast_pkey" PRIMARY KEY ("id_playlist","id_podcast")
-);
-
--- CreateTable
-CREATE TABLE "queue" (
-    "id_queue" INTEGER NOT NULL,
-    "id_episode" INTEGER NOT NULL,
-    "position" INTEGER NOT NULL,
-
-    CONSTRAINT "queue_pkey" PRIMARY KEY ("id_queue","position")
 );
 
 -- CreateIndex
@@ -84,11 +84,11 @@ ALTER TABLE "premium_episodes" ADD CONSTRAINT "premium_episodes_id_podcast_fkey"
 ALTER TABLE "premium_playlist" ADD CONSTRAINT "premium_playlist_id_user_fkey" FOREIGN KEY ("id_user") REFERENCES "premium_users"("id_user") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "queues" ADD CONSTRAINT "queues_id_episode_fkey" FOREIGN KEY ("id_episode") REFERENCES "premium_episodes"("id_episode") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "premium_playlist_x_podcast" ADD CONSTRAINT "premium_playlist_x_podcast_id_playlist_fkey" FOREIGN KEY ("id_playlist") REFERENCES "premium_playlist"("id_playlist") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "premium_playlist_x_podcast" ADD CONSTRAINT "premium_playlist_x_podcast_id_podcast_fkey" FOREIGN KEY ("id_podcast") REFERENCES "premium_podcasts"("id_podcast") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "queue" ADD CONSTRAINT "queue_id_episode_fkey" FOREIGN KEY ("id_episode") REFERENCES "premium_episodes"("id_episode") ON DELETE CASCADE ON UPDATE CASCADE;
 
