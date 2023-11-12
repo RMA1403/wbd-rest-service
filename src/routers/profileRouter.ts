@@ -2,7 +2,7 @@ import { Router } from "express";
 import { ProfileController } from "../controllers/profileController";
 import AuthMiddleware from "../middlewares/authMiddleware";
 
-export class QueueRouter {
+export class ProfileRouter {
     profileController: ProfileController;
 
     constructor() {
@@ -11,7 +11,7 @@ export class QueueRouter {
 
     getRoute() {
         return Router()
-        .use("/queue", new AuthMiddleware().verify())
-        .get("/queue", this.profileController.getProfile())
+        .use("/profile", new AuthMiddleware().verify())
+        .get("/profile", this.profileController.getProfile())
     }
 }

@@ -1,16 +1,15 @@
 import {App} from "../src/app";
 
 export default async function seed() {
-
     // Create 100 users
-    for (let i = 1; i <= 100; i++) {
-        await App.prismaClient.premiumUsers.create({
-            data: {
+    for (let i = 1; i <= 100; i++){
+        await App.prismaClient.premiumUsers.createMany({
+            data : {
                 id_user: i,
                 name: `User ${i}`,
                 username: `user${i}`,
                 password: `password${i}`,
-                url_profpic: `/src/assets/user${i}.jpg`,
+                url_profpic: 'escape.jpg',
                 is_admin: true,
             },
         });
@@ -28,7 +27,7 @@ export default async function seed() {
             data: {
                 id_podcast: i,
                 title: `Podcast ${i}`,
-                url_thumbnail: `/src/assets/podcast${i}.jpg`,
+                url_thumbnail: 'escape.jpg',
                 description: `Description for Podcast ${i}`,
                 category: "COMEDY",
                 id_user: i,
@@ -43,7 +42,7 @@ export default async function seed() {
                 data: {
                     title: `Episode ${j} of Podcast ${i}`,
                     description: `Description for Episode ${j} of Podcast ${i}`,
-                    url_thumbnail: `/src/assets/episode${i}_${j}.jpg`,
+                    url_thumbnail: 'escape.jpg',
                     url_audio: `/src/assets/episode${i}_${j}.mp3`,
                     id_podcast: i,
                 },

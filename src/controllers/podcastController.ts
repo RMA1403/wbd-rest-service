@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import { App } from "../app";
-import { Prisma } from "@prisma/client";
-import { Category } from '@prisma/client'; 
 
 export class PodcastController {
   getRandomPodcasts() {
