@@ -22,6 +22,45 @@ export class PodcastController {
     };
   }
 
+  getPodcastById() {
+    return async (req: Request, res: Response) => {
+      const { podcastId } = req.params;
+
+      if(!podcastId){
+        res.status(400).send({message: "Request parameter not found"});
+        return;
+      }
+
+      const result = await App.prismaClient.$queryRawUnsafe(
+        ` 
+        SELECT category, id_user AS creator, title, description, url_thumbnail AS imageurl FROM premium_podcasts
+        WHERE id_podcast = '${podcastId}';
+        `
+      );
+
+      return res.status(200).send({ podcast: result });
+    };
+  }
+
+  getPodcastEpisode() {
+    return async (req: Request, res: Response) => {
+      const { podcastId } = req.params;
+      if(!podcastId){
+        res.status(400).send({ message: "Request parameter not found"});
+        return;
+      }
+
+      const result = await App.prismaClient.$queryRawUnsafe(
+        `
+        SELECT title, description, url_thumbnail AS imageurl FROM premium_episodes 
+        WHERE id_podcast = '${podcastId}';
+        `
+        );
+
+      return res.status(200).send({ episodes: result });
+    };
+  }
+
   // getPodcast() {
   //   return async (req: Request, res: Response) => {
       

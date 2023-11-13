@@ -14,8 +14,16 @@ export class PodcastRouter {
       .use("/podcast", new AuthMiddleware().verify())
       .get(
         "/podcast/random/:category",
-        this.podcastController.getRandomPodcasts()
+        this.podcastController.getRandomPodcasts())
+      .get(
+        "/podcast/test/:podcastId",
+        this.podcastController.getPodcastById()
+      )
+      .get(
+        "/podcast/episode/:podcastId",
+        this.podcastController.getPodcastEpisode()
       );
+      
   }
 
   // getSearch() {
