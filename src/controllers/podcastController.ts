@@ -6,14 +6,16 @@ export class PodcastController {
     return async (req: Request, res: Response) => {
       const { category } = req.params;
 
-      if (!["TECHNOLOGY", "COMEDY", "HORROR"].includes(category)) {
+      if (
+        !["TECHNOLOGY", "COMEDY", "HORROR"].includes(category.toUpperCase())
+      ) {
         res.status(400).send({ message: "Invalid category" });
         return;
       }
 
       const result = await App.prismaClient.$queryRawUnsafe(`
-        SELECT title, description, url_thumbnail AS imageURL FROM premium_podcasts
-        WHERE category = '${category}'
+        SELECT id_podcast AS idPodcast, title, description, url_thumbnail AS imageURL FROM premium_podcasts
+        WHERE category = '${category.toUpperCase()}'
         ORDER BY random()
         LIMIT 5;
       `);
@@ -33,7 +35,7 @@ export class PodcastController {
 
       const result = await App.prismaClient.$queryRawUnsafe(
         ` 
-        SELECT category, id_user AS creator, title, description, url_thumbnail AS imageurl FROM premium_podcasts
+        SELECT category, id_user AS creator, title, description, url_thumbnail AS imageurl FROM premium_podcasts NATURAL JOIN
         WHERE id_podcast = '${podcastId}';
         `
       );
@@ -50,12 +52,23 @@ export class PodcastController {
         return;
       }
 
-      const result = await App.prismaClient.$queryRawUnsafe(
-        `
-        SELECT title, description, url_thumbnail AS imageurl FROM premium_episodes 
-        WHERE id_podcast = '${podcastId}';
-        `
-        );
+      // const result = await App.prismaClient.$queryRawUnsafe(
+      //   `
+      //   SELECT title, description, url_thumbnail AS imageurl FROM premium_episodes 
+      //   WHERE id_podcast = '${podcastId}';
+      //   `
+      //   );
+      const result = await App.prismaClient.premiumEpisodes.findMany({
+        select: {
+          title: true,
+          description: true,
+          url_thumbnail: true,
+        },
+        where: {
+          id_podcast: +podcastId,
+        },
+      });
+      
 
       return res.status(200).send({ episodes: result });
     };
@@ -63,7 +76,7 @@ export class PodcastController {
 
   // getPodcast() {
   //   return async (req: Request, res: Response) => {
-      
+
   //     const result = await App.prismaClient.premiumUsers.findMany();
 
   //     return res.status(200).send({ podcast: result[0] });

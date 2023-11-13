@@ -11,19 +11,18 @@ export class PodcastRouter {
 
   getRoute() {
     return Router()
-      .use("/podcast", new AuthMiddleware().verify())
+      // .use("/podcast", new AuthMiddleware().verify())
       .get(
         "/podcast/random/:category",
         this.podcastController.getRandomPodcasts())
       .get(
-        "/podcast/test/:podcastId",
+        "/podcast/:podcastId",
         this.podcastController.getPodcastById()
       )
       .get(
         "/podcast/episode/:podcastId",
         this.podcastController.getPodcastEpisode()
       );
-      
   }
 
   // getSearch() {

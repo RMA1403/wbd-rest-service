@@ -9,7 +9,7 @@ export class AuthController {
 
       const token = jwt.sign(
         {
-          data: req.body.username || "",
+          data: req.body.idUser || "",
         },
         secret,
         { expiresIn: 60 * 5 }

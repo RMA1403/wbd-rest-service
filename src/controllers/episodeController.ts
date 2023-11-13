@@ -41,12 +41,24 @@ export class EpisodeController {
         return;
       }
 
-      const result = await App.prismaClient.$queryRawUnsafe(
-        `
-        SELECT title, description, url_thumbnail AS imageurl FROM premium_episodes
-        where id_episode = ${episodeId};
-        `
-      );
+      // const result = await App.prismaClient.$queryRawUnsafe(
+      //   `
+      //   SELECT title, description, url_thumbnail AS imageurl FROM premium_episodes
+      //   where id_episode = ${episodeId};
+      //   `
+      // );
+
+      const result = await App.prismaClient.premiumEpisodes.findMany({
+        select: {
+          title: true,
+          description: true,
+          url_thumbnail: true,
+        },
+        where: {
+          id_episode: +episodeId,
+        },
+      });
+
 
       return res.status(200).send({ episode: result });
     }
