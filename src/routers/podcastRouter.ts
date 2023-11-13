@@ -16,7 +16,7 @@ export class PodcastRouter {
         "/podcast/random/:category",
         this.podcastController.getRandomPodcasts()
       ).get(
-        "/search/:keyword/:genre/:eps",
+        "/search?keyword=:keyword&genre=:genre&eps=:eps",
         this.podcastController.getPodcastByFilter()
       );
   }
