@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import verifyToken from "../lib/verifyToken";
 import axios from "axios";
 import xml2js from "xml2js";
+
 export default class AuthMiddleware {
   verify() {
     return async function authMiddleware(
@@ -24,11 +25,11 @@ export default class AuthMiddleware {
           `
             <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://services.soapserver/">
               <soap:Header>
-                <tns:test>ularmelingkardiataspagar</tns:test>
+                <tns:apiKey>${process.env.REST_SOAP_KEY}</tns:apiKey>
               </soap:Header>
               <soap:Body>
                 <tns:checkSubscription>
-                  <idUser>1</idUser>
+                  <idUser>${(token as any).data}</idUser>
                 </tns:checkSubscription>
               </soap:Body>
             </soap:Envelope>
