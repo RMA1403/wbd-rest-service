@@ -13,32 +13,12 @@ enum Category {
   HORROR
 }
 
-model DummyTable {
-  description String @unique
-
-  @@map("dummy_table")
-}
-
-model PremiumUsers {
-  id_user         Int               @id @default(autoincrement())
-  name            String            @db.VarChar(50)
-  username        String            @unique @db.VarChar(50)
-  password        String            @db.VarChar(255)
-  url_profpic     String            @db.VarChar(100)
-  is_admin        Boolean           @default(false)
-  PremiumPodcasts PremiumPodcasts[]
-  PremiumPlaylist PremiumPlaylist[]
-
-  @@map("premium_users")
-}
-
 model PremiumPodcasts {
   id_podcast              Int                       @id @default(autoincrement())
   title                   String                    @db.VarChar(50)
   url_thumbnail           String                    @db.VarChar(100)
   description             String                    @db.VarChar(1000)
   category                Category
-  user                    PremiumUsers              @relation(fields: [id_user], references: [id_user], onDelete: Cascade)
   id_user                 Int
   PremiumEpisodes         PremiumEpisodes[]
   PremiumPlaylistxPodcast PremiumPlaylistxPodcast[]
@@ -50,8 +30,8 @@ model PremiumEpisodes {
   id_episode     Int             @id @default(autoincrement())
   title          String          @db.VarChar(50)
   description    String          @db.VarChar(1000)
-  url_thumbnail   String          @db.VarChar(100)
-  url_audio       String          @db.VarChar(100)
+  url_thumbnail  String          @db.VarChar(100)
+  url_audio      String          @db.VarChar(100)
   PremiumPodcast PremiumPodcasts @relation(fields: [id_podcast], references: [id_podcast], onDelete: Cascade)
   id_podcast     Int
   Queue          Queue[]
@@ -62,7 +42,6 @@ model PremiumEpisodes {
 model PremiumPlaylist {
   id_playlist             Int                       @id @default(autoincrement())
   title                   String                    @db.VarChar(50)
-  user                    PremiumUsers              @relation(fields: [id_user], references: [id_user], onDelete: Cascade)
   id_user                 Int
   PremiumPlaylistxPodcast PremiumPlaylistxPodcast[]
 

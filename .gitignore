@@ -1,5 +1,5 @@
 node_modules
 .env
 
-# src/storage/audio
-# src/storage/images
+src/storage/audio
+src/storage/images
