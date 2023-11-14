@@ -32,4 +32,8 @@ export default class UploadMiddleware {
   handleImage() {
     return this.upload.single("imageFile");
   }
+
+  handleForm() {
+    return this.upload.none();
+  }
 }

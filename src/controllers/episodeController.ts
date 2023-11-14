@@ -57,8 +57,6 @@ export class EpisodeController {
             })) ?? {};
 
           fs.unlinkSync("./src/storage/images/" + oldImagePath);
-        } else {
-          fs.unlinkSync("./src/storage/images/" + file?.filename);
         }
 
         await App.prismaClient.premiumEpisodes.update({

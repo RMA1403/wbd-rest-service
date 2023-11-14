@@ -34,6 +34,7 @@ export class PodcastRouter {
         this.podcastController.editPodcast()
       )
       .delete("/podcast/:idPodcast", this.podcastController.deletePodcast())
-      .get("/podcast/:idPodcast", this.podcastController.getPodcastById());
+      .get("/podcast/:idPodcast", this.podcastController.getPodcastById())
+      .get("/podcast/by-user/:idUser", this.podcastController.getUserPodcasts());
   }
 }
