@@ -35,7 +35,7 @@ export class PodcastController {
 
       const result = await App.prismaClient.$queryRawUnsafe(
         ` 
-        SELECT category, id_user AS creator, title, description, url_thumbnail AS imageurl FROM premium_podcasts NATURAL JOIN
+        SELECT category, id_user AS creator, title, description, url_thumbnail AS imageurl FROM premium_podcasts
         WHERE id_podcast = '${podcastId}';
         `
       );
