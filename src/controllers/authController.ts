@@ -12,7 +12,7 @@ export class AuthController {
           data: req.body.idUser || "",
         },
         secret,
-        { expiresIn: 60 * 1000 }
+        { expiresIn: 60 * 10 }
       );
 
       return res.status(200).json({ token });

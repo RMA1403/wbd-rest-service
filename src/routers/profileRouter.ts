@@ -13,5 +13,6 @@ export class ProfileRouter {
         return Router()
         .use("/profile", new AuthMiddleware().verify())
         .get("/profile", this.profileController.getProfile())
+        .post("/profile", this.profileController.updateProfile())
     }
 }

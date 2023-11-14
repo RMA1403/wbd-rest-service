@@ -1,28 +1,33 @@
 import { Request, Response } from "express";
-import axios from "axios";
-
-interface DecodedToken {
-    data: string;
-}
+import fetch from "node-fetch";
 
 export class ProfileController {
     getProfile(){
         return async (req: Request, res: Response) => {
             
-            const result = await axios.get(`http://127.0.0.1:8080/public/profile?user_id=${req.body.idUser}`, {
+            const result = await fetch(`http://tubes-php-app:80/public/profile?user_id=${req.body.idUser}`, {
                 headers: {
-                    'Access-Control-Allow-Origin': true,
+                    'api_key': `${process.env.API_KEY}`
                 },
-                // proxy: {
-                //     host: 'localhost',
-                //     port: 8080,
-                // }
-            }
-            ).catch((err) => {
-                console.log(err)
             });
+            console.log(result);
+            const resultJson = await result.json();
             // const result = {name: "John Doe"};
-            return res.status(200).send({ result });
+            return res.status(200).send(resultJson);
         };
-    }   
+    } 
+                
+    updateProfile(){
+        return async (req: Request, res: Response) => {
+            const result = await fetch(`http://tubes-php-app:80/public/profile?user_id=${req.body.idUser}`, {
+                method: 'POST',
+                body: JSON.stringify(req.body),
+                headers: {
+                    'api_key': `${process.env.API_KEY}`
+                },
+            });
+            const cy = {'message': 'disni'}
+            return res.status(200).send(cy);
+        };
+    }
 }
