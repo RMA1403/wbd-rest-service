@@ -17,14 +17,19 @@ export class EpisodeRouter {
   }
 
   getRoute() {
-    return (
-      Router()
-        // .use("/episode", new AuthMiddleware().verify())
-        .post(
-          "/episode",
-          this.uploadMiddleware.handleEpisodeUpload(),
-          this.episodeController.createEpisode()
-        )
-    );
+    return Router()
+      .use("/episode", new AuthMiddleware().verify())
+      .post(
+        "/episode",
+        this.uploadMiddleware.handleImageAndAudio(),
+        this.episodeController.createEpisode()
+      )
+      .put(
+        "/episode/:idEpisode",
+        this.uploadMiddleware.handleImage(),
+        this.episodeController.editEpisode()
+      )
+      .delete("/episode/:idEpisode", this.episodeController.deleteEpisode())
+      .get("/episode/:idEpisode", this.episodeController.getEpisodeById());
   }
 }

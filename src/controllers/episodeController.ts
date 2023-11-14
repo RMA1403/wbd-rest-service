@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { App } from "../app";
-
+import fs from "fs";
 export class EpisodeController {
   createEpisode() {
     return async (req: Request, res: Response) => {
@@ -23,6 +23,106 @@ export class EpisodeController {
         });
 
         return res.status(201).json({ message: "success" });
+      } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "internal server error" });
+      }
+    };
+  }
+
+  editEpisode() {
+    return async (req: Request, res: Response) => {
+      try {
+        const { idEpisode } = req.params;
+        const { title, description, updateCover } = req.body;
+        const file = req.file;
+
+        if (!idEpisode || !title) {
+          return res.status(400).json({ message: "incomplete request" });
+        }
+
+        if (updateCover === "true") {
+          if (!file || !file.filename) {
+            return res.status(400).json({ message: "missing file" });
+          }
+
+          const { url_thumbnail: oldImagePath } =
+            (await App.prismaClient.premiumEpisodes.findUnique({
+              where: {
+                id_episode: +idEpisode,
+              },
+              select: {
+                url_thumbnail: true,
+              },
+            })) ?? {};
+
+          fs.unlinkSync("./src/storage/images/" + oldImagePath);
+        } else {
+          fs.unlinkSync("./src/storage/images/" + file?.filename);
+        }
+
+        await App.prismaClient.premiumEpisodes.update({
+          where: {
+            id_episode: +idEpisode,
+          },
+          data: {
+            title,
+            description: description || undefined,
+            url_thumbnail: updateCover === "true" ? file?.filename : undefined,
+          },
+        });
+
+        return res.status(200).json({ message: "success" });
+      } catch (err) {
+        console.log(err);
+        fs.unlinkSync("./src/storage/images/" + req.file?.filename);
+        return res.status(500).json({ message: "internal server error" });
+      }
+    };
+  }
+
+  deleteEpisode() {
+    return async (req: Request, res: Response) => {
+      try {
+        const { idEpisode } = req.params;
+
+        if (!idEpisode) {
+          return res.status(400).json({ message: "missing id" });
+        }
+
+        const deletedUser = await App.prismaClient.premiumEpisodes.delete({
+          where: {
+            id_episode: +idEpisode,
+          },
+        });
+
+        fs.unlinkSync("./src/storage/images/" + deletedUser.url_thumbnail);
+        fs.unlinkSync("./src/storage/audio/" + deletedUser.url_audio);
+
+        return res.status(200).json({ message: "success" });
+      } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "internal server error" });
+      }
+    };
+  }
+
+  getEpisodeById() {
+    return async (req: Request, res: Response) => {
+      try {
+        const { idEpisode } = req.params;
+
+        if (!idEpisode) {
+          return res.status(400).json({ message: "missing id" });
+        }
+
+        const episode = await App.prismaClient.premiumEpisodes.findUnique({
+          where: {
+            id_episode: +idEpisode,
+          },
+        });
+
+        return res.status(200).json({ episode });
       } catch (err) {
         console.log(err);
         return res.status(500).json({ message: "internal server error" });

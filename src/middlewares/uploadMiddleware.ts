@@ -22,10 +22,14 @@ export default class UploadMiddleware {
     this.upload = multer({ storage });
   }
 
-  handleEpisodeUpload() {
+  handleImageAndAudio() {
     return this.upload.fields([
       { name: "imageFile", maxCount: 1 },
       { name: "audioFile", maxCount: 1 },
     ]);
+  }
+
+  handleImage() {
+    return this.upload.single("imageFile");
   }
 }

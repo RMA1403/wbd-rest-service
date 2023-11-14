@@ -11,6 +11,12 @@ export default class AuthMiddleware {
       next: NextFunction
     ) {
       try {
+        const apiKey = req.headers.apikey;
+        if (apiKey === process.env.REST_PHP_KEY) {
+          next();
+          return
+        }
+
         const bearerToken = req.headers.authorization?.split(" ")[1] || "";
 
         // Validate jwt token
