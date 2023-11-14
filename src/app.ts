@@ -36,9 +36,9 @@ export class App {
   }
 
   async isSeed() {
-    const premiumUsersCount = await App.prismaClient.premiumUsers.count();
+    const premiumEpisodesCount = await App.prismaClient.premiumEpisodes.count();
 
-    if (premiumUsersCount === 0) {
+    if (premiumEpisodesCount === 0) {
      return false;
     } 
 

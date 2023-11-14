@@ -2,35 +2,15 @@ import { Category } from "@prisma/client";
 import { App } from "../src/app";
 
 export default async function seed() {
-  // Create 100 users
-  for (let i = 1; i <= 100; i++) {
-    await App.prismaClient.premiumUsers.create({
-      data: {
-        id_user: i,
-        name: `User ${i}`,
-        username: `user${i}`,
-        password: `password${i}`,
-        url_profpic: `escape.jpg`,
-        is_admin: true,
-      },
-    });
-  }
-
   const podcastData = [];
   const episodeData = [];
 
   // Create 100 podcasts, each with 10 to 20 episodes
   for (let i = 1; i <= 100; i++) {
-    const user = await App.prismaClient.premiumUsers.findFirst({
-      where: {
-        id_user: i,
-      },
-    });
-
     const category =
       i % 3 === 0 ? "HORROR" : i % 3 === 1 ? "TECHNOLOGY" : "COMEDY";
     podcastData.push({
-      id_podcast: i,
+      // id_podcast: i,
       title: `Podcast ${i}`,
       url_thumbnail: "escape.jpg",
       description: `Description for Podcast ${i}`,

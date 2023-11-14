@@ -90,14 +90,14 @@ export class EpisodeController {
           return res.status(400).json({ message: "missing id" });
         }
 
-        const deletedUser = await App.prismaClient.premiumEpisodes.delete({
+        const deletedEpisode = await App.prismaClient.premiumEpisodes.delete({
           where: {
             id_episode: +idEpisode,
           },
         });
 
-        fs.unlinkSync("./src/storage/images/" + deletedUser.url_thumbnail);
-        fs.unlinkSync("./src/storage/audio/" + deletedUser.url_audio);
+        fs.unlinkSync("./src/storage/images/" + deletedEpisode.url_thumbnail);
+        fs.unlinkSync("./src/storage/audio/" + deletedEpisode.url_audio);
 
         return res.status(200).json({ message: "success" });
       } catch (err) {

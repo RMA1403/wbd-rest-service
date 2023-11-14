@@ -18,7 +18,7 @@ export class EpisodeRouter {
 
   getRoute() {
     return Router()
-      .use("/episode", new AuthMiddleware().verify())
+      .use("/episode", this.authMiddleware.verify())
       .post(
         "/episode",
         this.uploadMiddleware.handleImageAndAudio(),
