@@ -9,6 +9,10 @@ export class EpisodeRouter {
   }
 
   getRoute() {
-    return Router().get("/audio", this.episodeController.playEpisode());
+    return Router().get("/audio", this.episodeController.playEpisode())
+    .get(
+      "/episode/:episodeId",
+      this.episodeController.getEpisodeById()
+    );
   }
 }

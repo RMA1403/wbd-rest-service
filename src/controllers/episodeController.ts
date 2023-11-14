@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import fs from "fs";
+import { App } from "../app";
 
 export class EpisodeController {
   playEpisode() {
@@ -30,4 +31,37 @@ export class EpisodeController {
       audioStream.pipe(res);
     };
   }
+
+  getEpisodeById() {
+    return async (req: Request, res: Response) => {
+      const { episodeId } = req.params;
+
+      if(!episodeId){
+        res.status(400).send({message: "Request parameter not found"});
+        return;
+      }
+
+      // const result = await App.prismaClient.$queryRawUnsafe(
+      //   `
+      //   SELECT title, description, url_thumbnail AS imageurl FROM premium_episodes
+      //   where id_episode = ${episodeId};
+      //   `
+      // );
+
+      const result = await App.prismaClient.premiumEpisodes.findMany({
+        select: {
+          title: true,
+          description: true,
+          url_thumbnail: true,
+        },
+        where: {
+          id_episode: +episodeId,
+        },
+      });
+
+
+      return res.status(200).send({ episode: result });
+    }
+  }
+
 }
