@@ -13,7 +13,7 @@ services:
   rest-service-db:
     build: ./database
     ports:
-      - 5432:5432
+      - 5435:5432
     hostname: tubes-rest-db
     env_file:
       - .env
