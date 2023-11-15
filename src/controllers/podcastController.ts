@@ -64,6 +64,7 @@ export class PodcastController {
           title: true,
           description: true,
           url_thumbnail: true,
+          id_episode: true,
         },
         where: {
           id_podcast: +podcastId,
