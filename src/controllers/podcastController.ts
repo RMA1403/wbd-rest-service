@@ -53,12 +53,6 @@ export class PodcastController {
         return;
       }
 
-      // const result = await App.prismaClient.$queryRawUnsafe(
-      //   `
-      //   SELECT title, description, url_thumbnail AS imageurl FROM premium_episodes
-      //   WHERE id_podcast = '${podcastId}';
-      //   `
-      //   );
       const result = await App.prismaClient.premiumEpisodes.findMany({
         select: {
           title: true,
