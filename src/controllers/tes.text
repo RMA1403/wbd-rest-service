@@ -1,0 +1,5 @@
+<br />
+<b>Warning</b>:  Undefined array key "name" in <b>/var/www/html/app/controllers/profile/update_profile.php</b> on line <b>20</b><br />    
+<br />
+<b>Warning</b>:  Undefined array key "username" in <b>/var/www/html/app/controllers/profile/update_profile.php</b> on line <b>21</b><br />
+{"message":"Internal server error"}

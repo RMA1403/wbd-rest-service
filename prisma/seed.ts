@@ -2,24 +2,22 @@ import { Category } from "@prisma/client";
 import { App } from "../src/app";
 
 export default async function seed() {
-  // try {
-  //     const premiumUsersCount = await App.prismaClient.premiumUsers.count();
-
-  //     if (premiumUsersCount > 0) {
-  //         await App.prismaClient.premiumUsers.deleteMany();
-  //         await App.prismaClient.premiumEpisodes.deleteMany();
-  //         await App.prismaClient.premiumPlaylist.deleteMany();
-  //         await App.prismaClient.premiumPodcasts.deleteMany();
-  //         await App.prismaClient.premiumPlaylistxPodcast.deleteMany();
-  //         await App.prismaClient.queue.deleteMany();
-  //     }
-  // } catch (error) {
-  //     console.error('Error during deletion:', error);
-  //     // Handle the error appropriately, e.g., log it, notify someone, or throw it again
-  // }
 
   const podcastData = [];
   const episodeData = [];
+
+  for (let i = 1; i <= 100; i++) {
+    await App.prismaClient.premiumUsers.create({
+      data: {
+        id_user: i,
+        name: `User ${i}`,
+        username: `user${i}`,
+        password: `password${i}`,
+        url_profpic: `escape.jpg`,
+        is_admin: true,
+      }
+    })
+  };
 
   // Create 100 podcasts, each with 10 to 20 episodes
   for (let i = 1; i <= 100; i++) {

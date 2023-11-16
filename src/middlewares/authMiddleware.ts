@@ -12,12 +12,12 @@ export default class AuthMiddleware {
     ) {
       try {
         const bearerToken = req.headers.authorization?.split(" ")[1] || "";
+        // console.log(req.headers);
 
         // Validate jwt token
         if (bearerToken === "") {
           return res.status(401).json({ message: "invalid token" });
         }
-        console.log("kiw kiw");
         const token = await verifyToken(bearerToken);
 
         const soapRes = await axios.post(
