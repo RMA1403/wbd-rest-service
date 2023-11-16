@@ -19,7 +19,7 @@ export class PlaylistRouter {
       .get("/playlist/:idPlaylist", this.playlistController.getPlaylistPodcasts())
       .get("/library/:idUser", this.playlistController.getUserPlaylists())
       .post("/library/:idUser", this.playlistController.createPlaylist())
-      .delete("/library/:idUser", this.playlistController.deletePlaylist())
+      .delete("/playlist/:idPlaylist", this.playlistController.deletePlaylist())
       .get("/playlist/title/:idPlaylist", this.playlistController.getPlaylistById())
       .post("/playlist/podcast/:podcastId", this.playlistController.addPodcastToPlaylist())
     } 
