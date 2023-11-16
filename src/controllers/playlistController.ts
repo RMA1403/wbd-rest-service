@@ -35,7 +35,7 @@ export class PlaylistController {
                 const { title, idUser } = req.body;
 
                 if(!title || !idUser) {
-                    return res.status(400).json({ message: "incomplete request "});
+                    return res.status(400).json({ message: "incomplete request" });
                 }
 
                 await App.prismaClient.premiumPlaylist.create({
