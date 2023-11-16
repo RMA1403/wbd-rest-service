@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { App } from "../app";
 import fs from "fs";
+import { Category } from '@prisma/client'; 
+import multer from 'multer';
 export class EpisodeController {
   createEpisode() {
     return async (req: Request, res: Response) => {
@@ -156,6 +158,35 @@ export class EpisodeController {
       });
 
       return res.status(200).send({ episode: result });
+    };
+  }
+  getEpisodeByFilter() {
+    return async (req: Request, res: Response) => {
+      const { keyword, genre } = req.query;
+      const episodes = await App.prismaClient.premiumEpisodes.findMany({
+        select: {
+          id_episode: true,
+          title: true,
+          description: true,
+          url_thumbnail: true,
+          PremiumPodcast: {
+            select: {
+              title: true,
+            }
+          },
+        },
+        where: {
+          title: {
+            contains: keyword as string ?? undefined,
+            mode: "insensitive",
+          },
+          PremiumPodcast: {
+            category: genre as Category ?? undefined,
+          }
+        },
+      });
+
+      return res.status(200).send({ episodes: episodes });
     };
   }
 }

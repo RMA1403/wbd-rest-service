@@ -2,11 +2,8 @@ import { Category } from "@prisma/client";
 import { App } from "../src/app";
 
 export default async function seed() {
-<<<<<<< HEAD
-=======
   const podcastData = [];
   const episodeData = [];
->>>>>>> main
 
   // Create 100 podcasts, each with 10 to 20 episodes
   for (let i = 1; i <= 100; i++) {
