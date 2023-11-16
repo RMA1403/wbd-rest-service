@@ -11,16 +11,17 @@ export class PlaylistController {
                 return res.status(400).json({ message: "missing id" });
               }
       
-              const podcasts = await App.prismaClient.premiumPlaylist.findMany({
+              const playlists = await App.prismaClient.premiumPlaylist.findMany({
                 select: {
                     title:true,
+                    id_playlist:true,
                 },
                 where: {
                     id_user: +idUser,
                 }
               });
               
-              return res.status(200).json({ podcasts });
+              return res.status(200).json({ playlists });
             }catch (err) {
               console.log(err);
               return res.status(500).json({ message: "internal server error "});
@@ -84,6 +85,9 @@ export class PlaylistController {
                 }
 
                 const playlist = await App.prismaClient.premiumPlaylist.findUnique({
+                    select: {
+                      title: true,
+                    },
                     where: {
                         id_playlist: +idPlaylist,
                     },
@@ -144,28 +148,28 @@ export class PlaylistController {
         } 
       };
 
-      deletePodcastFromPlaylist() {
-        return async (req: Request, res: Response) => {
-            try {
-                const { idPlaylist, idPodcast } = req.params;
+      // deletePodcastFromPlaylist() {
+      //   return async (req: Request, res: Response) => {
+      //       try {
+      //           const { idPlaylist, idPodcast } = req.params;
 
-                if(!idPlaylist || !idPodcast) {
-                    return res.status(400).json({ message: "incomplete request" });
-                }
+      //           if(!idPlaylist || !idPodcast) {
+      //               return res.status(400).json({ message: "incomplete request" });
+      //           }
 
-                await App.prismaClient.premiumPlaylistxPodcast.delete({
-                    where: {
-                        id_playlist: +idPlaylist,
-                        id_podcast: +idPodcast,
-                    },
-                });
+      //           await App.prismaClient.premiumPlaylistxPodcast.delete({
+      //               where: {
+      //                   id_playlist: +idPlaylist,
+      //                   id_podcast: +idPodcast,
+      //               },
+      //           });
 
-                return res.status(200).json({ message: "success" });
-            } catch (err) {
-                console.log(err);
-                return res.status(500).json({ message: "internal server error "});
-            }
+      //           return res.status(200).json({ message: "success" });
+      //       } catch (err) {
+      //           console.log(err);
+      //           return res.status(500).json({ message: "internal server error "});
+      //       }
 
-        }
-      }
+      //   }
+      // }
 }

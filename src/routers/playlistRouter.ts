@@ -2,7 +2,7 @@ import { Router } from "express";
 import { PlaylistController } from "../controllers/playlistController";
 import AuthMiddleware from "../middlewares/authMiddleware";
 
-export class PodcastRouter {
+export class PlaylistRouter {
   authMiddleware: AuthMiddleware;
 
   playlistController: PlaylistController;
@@ -20,7 +20,8 @@ export class PodcastRouter {
       .get("/library/:idUser", this.playlistController.getUserPlaylists())
       .post("/library/:idUser", this.playlistController.createPlaylist())
       .delete("/library/:idUser", this.playlistController.deletePlaylist())
-      
+      .get("/playlist/title/:idPlaylist", this.playlistController.getPlaylistById())
+      .post("/playlist/podcast/:podcastId", this.playlistController.addPodcastToPlaylist())
     } 
 }
 
