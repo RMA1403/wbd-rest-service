@@ -81,8 +81,8 @@ export class PlaylistController {
                 const { idUser } = req.body;
                 const { idPlaylist } = req.params;
 
-                if(!idPlaylist) {
-                    return res.status(400).json({ message: "missing id" });
+                if(!idPlaylist || !idUser) {
+                    return res.status(400).json({ message: "incomplete request" });
                 }
 
                 const playlist = await App.prismaClient.premiumPlaylist.findUnique({
@@ -95,7 +95,7 @@ export class PlaylistController {
                     },
                 });
 
-                return res.status(200).json({ title: playlist });
+                return res.status(200).json({ playlist });
             }catch (err) {
                 console.log(err);
                 return res.status(500).json({ message: "internal server error" });

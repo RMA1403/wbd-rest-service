@@ -15,8 +15,8 @@ export class PlaylistRouter {
 
   getRoute() {
     return Router()
-      // .use("/playlist", this.authMiddleware.verify())
-      // .use("/library", this.authMiddleware.verify())
+      .use("/playlist", this.authMiddleware.verify())
+      .use("/library", this.authMiddleware.verify())
       .get("/playlist/:idPlaylist", this.playlistController.getPlaylistPodcasts())
       .get("/library", this.playlistController.getUserPlaylists())
       .post("/library", this.playlistController.createPlaylist())
