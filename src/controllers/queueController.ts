@@ -27,6 +27,9 @@ export class QueueController {
             },
           },
         },
+        orderBy: {
+          position: "asc",
+        },
       });
 
       return res.status(200).json({ queue: result });
@@ -147,7 +150,7 @@ export class QueueController {
           },
           data: {
             position: {
-              decrement: (positions[0]?.position * 100) + 6,
+              decrement: positions[0]?.position * 100 + 6,
             },
           },
         });
@@ -157,7 +160,7 @@ export class QueueController {
           },
           data: {
             position: {
-              increment: (positions[0]?.position * 100) + 5,
+              increment: positions[0]?.position * 100 + 5,
             },
           },
         });
@@ -226,7 +229,7 @@ export class QueueController {
           },
           data: {
             position: {
-              increment: (positions[0]?.position * 100) + 6,
+              increment: positions[0]?.position * 100 + 6,
             },
           },
         });
@@ -236,7 +239,7 @@ export class QueueController {
           },
           data: {
             position: {
-              decrement: (positions[0]?.position * 100) + 5,
+              decrement: positions[0]?.position * 100 + 5,
             },
           },
         });

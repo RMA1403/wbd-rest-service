@@ -3,6 +3,7 @@ import { App } from "../app";
 
 import fs from "fs";
 import { Category } from "@prisma/client";
+import fetch2 from "node-fetch";
 
 export class PodcastController {
   getRandomPodcasts() {
@@ -16,35 +17,32 @@ export class PodcastController {
         return;
       }
 
-      const result = await App.prismaClient.$queryRawUnsafe(`
+      const result = (await App.prismaClient.$queryRawUnsafe(`
         SELECT id_podcast AS idPodcast, title, description, url_thumbnail AS imageURL FROM premium_podcasts
         WHERE category = '${category.toUpperCase()}'
         ORDER BY random()
-        LIMIT 5;
-      `);
+        LIMIT 3;
+      `)) as any;
 
-      return res.status(200).send({ podcasts: result });
-    };
-  }
-  getPodcastByIdOther() {
-    return async (req: Request, res: Response) => {
-      const { podcastId } = req.params;
-
-      if (!podcastId) {
-        res.status(400).send({ message: "Request parameter not found" });
-        return;
-      }
-
-      const result = await App.prismaClient.$queryRawUnsafe(
-        ` 
-        SELECT category, id_user AS creator, title, description, url_thumbnail AS imageurl FROM premium_podcasts
-        WHERE id_podcast = '${podcastId}';
-        `
+      const resultPHP = await fetch2(
+        `http://tubes-php-app:80/public/random-podcast?category=${category.toLowerCase()}`
       );
 
-      return res.status(200).send({ podcast: result });
+      const { podcasts } = await resultPHP.json();
+
+      return res.status(200).send({
+        premiumPodcasts: result.map((res: any) => ({
+          ...res,
+          premium: true,
+        })),
+        regularPodcasts: podcasts.map((pod: any) => ({
+          ...pod,
+          premium: false,
+        })),
+      });
     };
   }
+
   getPodcastEpisode() {
     return async (req: Request, res: Response) => {
       const { podcastId } = req.params;
@@ -183,6 +181,35 @@ export class PodcastController {
     return async (req: Request, res: Response) => {
       try {
         const { idPodcast } = req.params;
+        const { premium } = req.query;
+
+        if (premium === "false") {
+          const result = await fetch2(
+            `http://tubes-php-app:80/public/podcast-by-id?idPodcast=${idPodcast}`
+          );
+          const { podcast, episodes } = await result.json();
+
+          const response = {
+            podcast: {
+              id_podcast: +podcast.id_podcast,
+              title: podcast.title,
+              url_thumbnail: podcast.url_thumbnail,
+              description: podcast.description,
+              category: podcast.category.toUpperCase(),
+              id_user: +podcast.id_user,
+              PremiumEpisodes: episodes.map((eps: any) => ({
+                id_episode: +eps.id_episode,
+                title: eps.title,
+                description: eps.description,
+                url_thumbnail: eps.url_thumbnail,
+                url_audio: eps.url_audio,
+                id_podcast: +eps.id_podcast,
+              })),
+            },
+          };
+
+          return res.status(200).json({ ...response });
+        }
 
         if (!idPodcast) {
           return res.status(400).json({ message: "missing id" });
