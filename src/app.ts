@@ -4,9 +4,10 @@ import { DummyRouter } from "./routers/dummyRouter";
 import { PrismaClient } from "@prisma/client";
 import { EpisodeRouter } from "./routers/episodeRouter";
 import { PodcastRouter } from "./routers/podcastRouter";
-import seed from "../prisma/seed";
+import seed from "./lib/restSeed";
 import { AuthRouter } from "./routers/authRouter";
 import { QueueRouter } from "./routers/queueRouter";
+import { SeedRouter } from "./routers/seedRouter";
 
 export class App {
   private _port: number = 3000;
@@ -21,6 +22,7 @@ export class App {
     const podcastRouter = new PodcastRouter();
     const authRouter = new AuthRouter();
     const queueRouter = new QueueRouter();
+    const seedRouter = new SeedRouter();
 
     this.server.use(
       cors(),
@@ -31,7 +33,8 @@ export class App {
       episodeRouter.getRoute(),
       podcastRouter.getRoute(),
       authRouter.getRoute(),
-      queueRouter.getRoute()
+      queueRouter.getRoute(),
+      seedRouter.getRoute()
     );
   }
 
@@ -39,26 +42,25 @@ export class App {
     const premiumEpisodesCount = await App.prismaClient.premiumEpisodes.count();
 
     if (premiumEpisodesCount === 0) {
-     return false;
-    } 
+      return false;
+    }
 
     return true;
   }
 
-
   run() {
-    this.isSeed().then((isSeed) => {
-      if (!isSeed) {
-        seed().then(() => {
-          this.server.listen(this._port, () =>
-            console.log(`listening on port ${this._port}`)
-          );
-        });
-      } else {
-        this.server.listen(this._port, () =>
-          console.log(`listening on port ${this._port}`)
-        );
-      }
-    });
+    // this.isSeed().then((isSeed) => {
+    //   if (!isSeed) {
+    //     seed().then(() => {
+    this.server.listen(this._port, () =>
+      console.log(`listening on port ${this._port}`)
+    );
+    // });
+    //   } else {
+    //     this.server.listen(this._port, () =>
+    //       console.log(`listening on port ${this._port}`)
+    //     );
+    //   }
+    // });
   }
 }
