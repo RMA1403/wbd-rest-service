@@ -15,10 +15,11 @@ export class PlaylistRouter {
 
   getRoute() {
     return Router()
-      .use("/playlist", this.authMiddleware.verify())
+      // .use("/playlist", this.authMiddleware.verify())
+      // .use("/library", this.authMiddleware.verify())
       .get("/playlist/:idPlaylist", this.playlistController.getPlaylistPodcasts())
-      .get("/library/:idUser", this.playlistController.getUserPlaylists())
-      .post("/library/:idUser", this.playlistController.createPlaylist())
+      .get("/library", this.playlistController.getUserPlaylists())
+      .post("/library", this.playlistController.createPlaylist())
       .delete("/playlist/:idPlaylist", this.playlistController.deletePlaylist())
       .get("/playlist/title/:idPlaylist", this.playlistController.getPlaylistById())
       .post("/playlist/podcast/:podcastId", this.playlistController.addPodcastToPlaylist())

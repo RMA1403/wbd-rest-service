@@ -5,7 +5,7 @@ export class PlaylistController {
     getUserPlaylists() {
         return async (req: Request, res: Response) => {
             try { 
-              const { idUser } = req.params;
+              const { idUser } = req.body;
       
               if(!idUser) {
                 return res.status(400).json({ message: "missing id" });
@@ -78,6 +78,7 @@ export class PlaylistController {
     getPlaylistById() {
         return async (req: Request, res: Response) => {
             try {
+                const { idUser } = req.body;
                 const { idPlaylist } = req.params;
 
                 if(!idPlaylist) {
@@ -90,10 +91,11 @@ export class PlaylistController {
                     },
                     where: {
                         id_playlist: +idPlaylist,
+                        id_user: +idUser,
                     },
                 });
 
-                return res.status(200).json({ playlist });
+                return res.status(200).json({ title: playlist });
             }catch (err) {
                 console.log(err);
                 return res.status(500).json({ message: "internal server error" });
@@ -116,7 +118,7 @@ export class PlaylistController {
             WHERE id_playlist = ${idPlaylist} 
             `);
             
-            return res.status(200).json({ podcasts });
+            return res.status(200).json({ podcasts: podcasts });
           }catch (err) {
             console.log(err);
             return res.status(500).json({ message: "internal server error "});
