@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { App } from "../app";
 import fs from "fs";
+import fetch2 from "node-fetch";
 export class EpisodeController {
   createEpisode() {
     return async (req: Request, res: Response) => {
@@ -109,9 +110,30 @@ export class EpisodeController {
     return async (req: Request, res: Response) => {
       try {
         const { idEpisode } = req.params;
+        const { premium } = req.query;
 
         if (!idEpisode) {
           return res.status(400).json({ message: "missing id" });
+        }
+
+        if (premium === "false") {
+          const result = await fetch2(
+            `http://tubes-php-app:80/public/episode-by-id?idEpisode=${idEpisode}`
+          );
+          const { episode } = await result.json();
+
+          const response = {
+            episode: {
+              id_episode: +episode.id_episode,
+              title: episode.title,
+              url_thumbnail: episode.url_thumbnail,
+              description: episode.description,
+              url_audio: episode.url_audio,
+              id_podcast: +episode.id_podcast,
+            },
+          };
+
+          return res.status(200).json({ ...response });
         }
 
         const episode = await App.prismaClient.premiumEpisodes.findUnique({
@@ -125,37 +147,6 @@ export class EpisodeController {
         console.log(err);
         return res.status(500).json({ message: "internal server error" });
       }
-    };
-  }
-
-  getEpisodeByIdOther() {
-    return async (req: Request, res: Response) => {
-      const { episodeId } = req.params;
-
-      if (!episodeId) {
-        res.status(400).send({ message: "Request parameter not found" });
-        return;
-      }
-
-      // const result = await App.prismaClient.$queryRawUnsafe(
-      //   `
-      //   SELECT title, description, url_thumbnail AS imageurl FROM premium_episodes
-      //   where id_episode = ${episodeId};
-      //   `
-      // );
-
-      const result = await App.prismaClient.premiumEpisodes.findMany({
-        select: {
-          title: true,
-          description: true,
-          url_thumbnail: true,
-        },
-        where: {
-          id_episode: +episodeId,
-        },
-      });
-
-      return res.status(200).send({ episode: result });
     };
   }
 }
