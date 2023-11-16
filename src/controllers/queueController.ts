@@ -84,7 +84,21 @@ export class QueueController {
           },
         },
         select: {
-          Episode: true,
+          Episode: {
+            select: {
+              id_episode: true,
+              title: true,
+              description: true,
+              url_thumbnail: true,
+              url_audio: true,
+              id_podcast: true,
+              PremiumPodcast: {
+                select: {
+                  title: true,
+                },
+              },
+            },
+          },
         },
       });
 
@@ -98,28 +112,52 @@ export class QueueController {
         const { idUser } = req.body;
 
         // Checks if next episode exists
-        const nextEpisode = await App.prismaClient.queue.findUnique({
-          where: {
-            id_queue_position: {
-              id_queue: +idUser,
-              position: 1,
+        const [nextEpisode, positions] = await Promise.all([
+          App.prismaClient.queue.findUnique({
+            where: {
+              id_queue_position: {
+                id_queue: +idUser,
+                position: 1,
+              },
             },
-          },
-          select: {
-            id_episode: true,
-          },
-        });
+            select: {
+              id_episode: true,
+            },
+          }),
+          App.prismaClient.queue.findMany({
+            where: {
+              id_queue: +idUser,
+            },
+            select: {
+              position: true,
+            },
+            orderBy: {
+              position: "desc",
+            },
+            take: 1,
+          }),
+        ]);
         if (!nextEpisode) {
           return res.status(200).json({ message: "no more episode in queue" });
         }
 
-        const updatePosition = App.prismaClient.queue.updateMany({
+        const updatePositionFirst = App.prismaClient.queue.updateMany({
           where: {
             id_queue: +idUser,
           },
           data: {
             position: {
-              decrement: 1,
+              decrement: (positions[0]?.position * 100) + 6,
+            },
+          },
+        });
+        const updatePositionSecond = App.prismaClient.queue.updateMany({
+          where: {
+            id_queue: +idUser,
+          },
+          data: {
+            position: {
+              increment: (positions[0]?.position * 100) + 5,
             },
           },
         });
@@ -133,7 +171,11 @@ export class QueueController {
           },
         });
 
-        await App.prismaClient.$transaction([updatePosition, deleteHistory]);
+        await App.prismaClient.$transaction([
+          updatePositionFirst,
+          updatePositionSecond,
+          deleteHistory,
+        ]);
 
         return res.status(200).json({ message: "success" });
       } catch (err) {
@@ -184,7 +226,7 @@ export class QueueController {
           },
           data: {
             position: {
-              increment: positions[0]?.position + 6,
+              increment: (positions[0]?.position * 100) + 6,
             },
           },
         });
@@ -194,7 +236,7 @@ export class QueueController {
           },
           data: {
             position: {
-              decrement: positions[0]?.position + 5,
+              decrement: (positions[0]?.position * 100) + 5,
             },
           },
         });
@@ -208,6 +250,77 @@ export class QueueController {
       } catch (err) {
         console.log(err);
         return res.status(500).json({ message: "error" });
+      }
+    };
+  }
+
+  clearQueue() {
+    return async (req: Request, res: Response) => {
+      try {
+        const { idUser } = req.body;
+
+        await App.prismaClient.queue.deleteMany({
+          where: {
+            id_queue: +idUser,
+            position: {
+              gte: 1,
+            },
+          },
+        });
+
+        return res.status(200).json({ message: "success" });
+      } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "internal server error" });
+      }
+    };
+  }
+
+  addEpisodeToQueue() {
+    return async (req: Request, res: Response) => {
+      try {
+        const { idEpisode, idUser } = req.body;
+
+        if (!idEpisode) {
+          return res.status(400).json({ message: "missing episode id" });
+        }
+
+        const [episode, positions] = await Promise.all([
+          App.prismaClient.premiumEpisodes.findUnique({
+            where: {
+              id_episode: +idEpisode,
+            },
+          }),
+          App.prismaClient.queue.findMany({
+            where: {
+              id_queue: +idUser,
+            },
+            select: {
+              position: true,
+            },
+            orderBy: {
+              position: "desc",
+            },
+            take: 1,
+          }),
+        ]);
+
+        if (!episode) {
+          return res.status(404).send("invalid episode");
+        }
+
+        await App.prismaClient.queue.createMany({
+          data: {
+            id_queue: +idUser,
+            id_episode: episode.id_episode,
+            position: (positions[0]?.position ?? -1) + 1,
+          },
+        });
+
+        return res.status(200).json({ message: "success" });
+      } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "internal server error" });
       }
     };
   }
