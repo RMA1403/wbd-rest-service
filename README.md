@@ -40,15 +40,12 @@ Berikut adalah endpoint yang dapat diakses untuk mengakses layanan dari service 
 30. Get pada `http://localhost:3000/subs/expired`
 
 ## Pembagian Tugas
-| Task                      | NIM      | 
-| --------------------------| ---------|
-| |  |
-| |  |
-| |  |
-| |  |
-| |  |
-| |  |
-| |  |
-| |  |
-| |  |
-| |  |
+1. Endpoint Authentication : 13521149
+2. Endpoint Episode        : 13521079, 13521149
+3. Endpoint Playlist       : 13521079
+4. Endpoint Podcast        : 13521079, 13521149
+5. Endpoint Profile        : 13521119
+6. Endpoint Queue          : 13521149
+7. Endpoint Search         : 13521119
+8. Endpoint Seed           : 13521149
+9. Endpoint Subs           : 13521119
