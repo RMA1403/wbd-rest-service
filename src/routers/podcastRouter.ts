@@ -22,9 +22,6 @@ export class PodcastRouter {
       .get(
         "/podcast/random/:category",
         this.podcastController.getRandomPodcasts()
-      ).get(
-        "/podcast/search",
-        this.podcastController.getPodcastByFilter()
-      );
+      )
   }
 }

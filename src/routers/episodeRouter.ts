@@ -30,6 +30,6 @@ export class EpisodeRouter {
         this.episodeController.editEpisode()
       )
       .delete("/episode/:idEpisode", this.episodeController.deleteEpisode())
-      .get("/episode/:idEpisode", this.episodeController.getEpisodeById());
+      .get("/episode/:idEpisode", this.episodeController.getEpisodeById())
   }
 }

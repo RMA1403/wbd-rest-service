@@ -25,28 +25,6 @@ export class PodcastController {
       return res.status(200).send({ podcasts: result });
     };
   }
-  getPodcastByFilter() {
-    return async (req: Request, res: Response) => {
-      const { keyword, genre} = req.query;
-      const podcasts = await App.prismaClient.premiumPodcasts.findMany({
-        select: {
-          id_podcast: true,
-          title: true,
-          description: true,
-          url_thumbnail: true,
-        },
-        where: {
-          title: {
-            contains: keyword as string ? keyword as string : undefined,
-            mode: "insensitive",
-          },
-          category: genre as Category ? genre as Category : undefined,
-        }
-      });
-
-      return res.status(200).send({ podcasts: podcasts });
-    };
-  }
   getPodcastByIdOther() {
     return async (req: Request, res: Response) => {
       const { podcastId } = req.params;
