@@ -7,7 +7,11 @@ import { PodcastRouter } from "./routers/podcastRouter";
 import seed from "./lib/restSeed";
 import { AuthRouter } from "./routers/authRouter";
 import { QueueRouter } from "./routers/queueRouter";
+<<<<<<< HEAD
 import { SeedRouter } from "./routers/seedRouter";
+=======
+import { SearchRouter } from "./routers/searchRouter";
+>>>>>>> feat/search
 
 export class App {
   private _port: number = 3000;
@@ -22,7 +26,11 @@ export class App {
     const podcastRouter = new PodcastRouter();
     const authRouter = new AuthRouter();
     const queueRouter = new QueueRouter();
+<<<<<<< HEAD
     const seedRouter = new SeedRouter();
+=======
+    const searchRouter = new SearchRouter();
+>>>>>>> feat/search
 
     this.server.use(
       cors(),
@@ -34,7 +42,11 @@ export class App {
       podcastRouter.getRoute(),
       authRouter.getRoute(),
       queueRouter.getRoute(),
+<<<<<<< HEAD
       seedRouter.getRoute()
+=======
+      searchRouter.getRoute()
+>>>>>>> feat/search
     );
   }
 

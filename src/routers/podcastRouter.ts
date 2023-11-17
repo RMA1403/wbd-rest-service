@@ -23,22 +23,5 @@ export class PodcastRouter {
         "/podcast/random/:category",
         this.podcastController.getRandomPodcasts()
       )
-      .post(
-        "/podcast",
-        this.uploadMiddleware.handleImage(),
-        this.podcastController.createPodcast()
-      )
-      .put(
-        "/podcast/:idPodcast",
-        this.uploadMiddleware.handleImage(),
-        this.podcastController.editPodcast()
-      )
-      .delete("/podcast/:idPodcast", this.podcastController.deletePodcast())
-      .get("/podcast/:idPodcast", this.podcastController.getPodcastById())
-      .get("/podcast/by-user/:idUser", this.podcastController.getUserPodcasts())
-      .get(
-        "/podcast/episode/:podcastId",
-        this.podcastController.getPodcastEpisode()
-      );
   }
 }
