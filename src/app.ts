@@ -7,6 +7,7 @@ import { PodcastRouter } from "./routers/podcastRouter";
 import seed from "./lib/restSeed";
 import { AuthRouter } from "./routers/authRouter";
 import { QueueRouter } from "./routers/queueRouter";
+import { PlaylistRouter } from "./routers/playlistRouter"
 import { SeedRouter } from "./routers/seedRouter";
 import { SearchRouter } from "./routers/searchRouter";
 import { ProfileRouter } from "./routers/profileRouter";
@@ -24,6 +25,7 @@ export class App {
     const podcastRouter = new PodcastRouter();
     const authRouter = new AuthRouter();
     const queueRouter = new QueueRouter();
+    const playlistRouter = new PlaylistRouter();
     const seedRouter = new SeedRouter();
     const searchRouter = new SearchRouter();
     const profileRouter = new ProfileRouter();
@@ -39,6 +41,7 @@ export class App {
       podcastRouter.getRoute(),
       authRouter.getRoute(),
       queueRouter.getRoute(),
+      playlistRouter.getRoute(),
       seedRouter.getRoute(),
       searchRouter.getRoute(),
       profileRouter.getRoute(),
