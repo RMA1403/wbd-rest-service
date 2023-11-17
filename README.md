@@ -42,8 +42,8 @@ Berikut adalah endpoint yang dapat diakses untuk mengakses layanan dari service 
 ## Pembagian Tugas
 | Task                      | NIM      | 
 | --------------------------| ---------|
-| |  |
-| |  |
+| Endpoint Queue | 13521149 |
+| Endpoint Autentikasi | 13521149  |
 | |  |
 | |  |
 | |  |
