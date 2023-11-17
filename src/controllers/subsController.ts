@@ -29,7 +29,8 @@ export class SubsController {
               );
       
               const xmlRes = await xml2js.parseStringPromise(soapRes.data);
-              const subscribeRes = xmlRes["S:Envelope"]["S:Body"][0]["ns2:checkSubscriptionResponse"][0]["return"][0];
+              console.log(xmlRes);
+              const subscribeRes = xmlRes["S:Envelope"]["S:Body"][0]["ns2:getExpiredResponse"][0]["return"][0];
             return res.status(200).json({ result: subscribeRes })
         }
     }
@@ -47,7 +48,6 @@ export class SubsController {
                     <soap:Body>
                       <tns:extendSubscription>
                         <idUser>${idUser}</idUser>
-                        <duration>${1000}</duration>
                       </tns:extendSubscription>
                     </soap:Body>
                   </soap:Envelope>
@@ -60,7 +60,7 @@ export class SubsController {
               );
       
               const xmlRes = await xml2js.parseStringPromise(soapRes.data);
-              const subscribeRes = xmlRes["S:Envelope"]["S:Body"][0]["ns2:checkSubscriptionResponse"][0]["return"][0];
+              const subscribeRes = xmlRes["S:Envelope"]["S:Body"][0]["ns2:extendSubscriptionResponse"][0]["return"][0];
             return res.status(200).json({ result: subscribeRes })
         }
     }

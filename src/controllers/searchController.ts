@@ -39,7 +39,6 @@ export class SearchController {
                         contains: req.query.keyword as string ?? undefined,
                         mode: 'insensitive',
                     },
-                    category: genre as Category ? genre as Category : undefined,
                 }
             });
 
@@ -54,7 +53,7 @@ export class SearchController {
                 ...res,
                 premium: true,
             })),
-            regularPodcasts: podcastsNon.map((pod: any) => ({
+            regularPodcasts: podcastsNon?.map((pod: any) => ({
                 ...pod,
                 premium: false,
             })),
@@ -94,7 +93,6 @@ export class SearchController {
                 },
                 where: {
                     PremiumPodcast: {
-                        category: genre as Category ?? undefined,
                         title: {
                             contains: req.query.keyword as string ? req.query.keyword as string : undefined,
                             mode: 'insensitive',
