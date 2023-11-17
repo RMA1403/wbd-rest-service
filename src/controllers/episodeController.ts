@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { App } from "../app";
 import fs from "fs";
 import fetch2 from "node-fetch";
+import { Category } from '@prisma/client'; 
+import multer from 'multer';
 export class EpisodeController {
   createEpisode() {
     return async (req: Request, res: Response) => {

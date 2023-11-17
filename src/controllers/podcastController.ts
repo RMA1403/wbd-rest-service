@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { App } from "../app";
-
+import { Category } from '@prisma/client'; 
 import fs from "fs";
-import { Category } from "@prisma/client";
 import fetch2 from "node-fetch";
 
 export class PodcastController {

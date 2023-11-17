@@ -9,7 +9,9 @@ import { AuthRouter } from "./routers/authRouter";
 import { QueueRouter } from "./routers/queueRouter";
 import { PlaylistRouter } from "./routers/playlistRouter"
 import { SeedRouter } from "./routers/seedRouter";
-
+import { SearchRouter } from "./routers/searchRouter";
+import { ProfileRouter } from "./routers/profileRouter";
+import { SubsRouter } from "./routers/subsRouter";
 export class App {
   private _port: number = 3000;
   server: Express;
@@ -25,6 +27,9 @@ export class App {
     const queueRouter = new QueueRouter();
     const playlistRouter = new PlaylistRouter();
     const seedRouter = new SeedRouter();
+    const searchRouter = new SearchRouter();
+    const profileRouter = new ProfileRouter();
+    const subsRouter = new SubsRouter();
 
     this.server.use(
       cors(),
@@ -37,7 +42,10 @@ export class App {
       authRouter.getRoute(),
       queueRouter.getRoute(),
       playlistRouter.getRoute(),
-      seedRouter.getRoute()
+      seedRouter.getRoute(),
+      searchRouter.getRoute(),
+      profileRouter.getRoute(),
+      subsRouter.getRoute()
     );
   }
 
