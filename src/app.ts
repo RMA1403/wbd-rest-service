@@ -7,16 +7,10 @@ import { PodcastRouter } from "./routers/podcastRouter";
 import seed from "./lib/restSeed";
 import { AuthRouter } from "./routers/authRouter";
 import { QueueRouter } from "./routers/queueRouter";
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { SeedRouter } from "./routers/seedRouter";
-=======
 import { SearchRouter } from "./routers/searchRouter";
->>>>>>> feat/search
-
-=======
 import { ProfileRouter } from "./routers/profileRouter";
->>>>>>> feat/profile
+import { SubsRouter } from "./routers/subsRouter";
 export class App {
   private _port: number = 3000;
   server: Express;
@@ -30,15 +24,10 @@ export class App {
     const podcastRouter = new PodcastRouter();
     const authRouter = new AuthRouter();
     const queueRouter = new QueueRouter();
-<<<<<<< HEAD
-<<<<<<< HEAD
     const seedRouter = new SeedRouter();
-=======
     const searchRouter = new SearchRouter();
->>>>>>> feat/search
-=======
     const profileRouter = new ProfileRouter();
->>>>>>> feat/profile
+    const subsRouter = new SubsRouter();
 
     this.server.use(
       cors(),
@@ -50,15 +39,10 @@ export class App {
       podcastRouter.getRoute(),
       authRouter.getRoute(),
       queueRouter.getRoute(),
-<<<<<<< HEAD
-<<<<<<< HEAD
-      seedRouter.getRoute()
-=======
-      searchRouter.getRoute()
->>>>>>> feat/search
-=======
+      seedRouter.getRoute(),
+      searchRouter.getRoute(),
       profileRouter.getRoute(),
->>>>>>> feat/profile
+      subsRouter.getRoute()
     );
   }
 

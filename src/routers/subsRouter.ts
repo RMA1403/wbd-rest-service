@@ -14,6 +14,7 @@ export class SubsRouter {
   getRoute() {
     return Router()
       .use("/subs", this.authMiddleware.verify())
-      .post("/subs", this.subsController.getUserSubs())
+      .get("/subs/expired", this.subsController.getExpired())
+      .post("/subs/extend", this.subsController.extendSubs())  
   }
 }
