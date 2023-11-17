@@ -8,11 +8,15 @@ import seed from "./lib/restSeed";
 import { AuthRouter } from "./routers/authRouter";
 import { QueueRouter } from "./routers/queueRouter";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { SeedRouter } from "./routers/seedRouter";
 =======
 import { SearchRouter } from "./routers/searchRouter";
 >>>>>>> feat/search
 
+=======
+import { ProfileRouter } from "./routers/profileRouter";
+>>>>>>> feat/profile
 export class App {
   private _port: number = 3000;
   server: Express;
@@ -27,10 +31,14 @@ export class App {
     const authRouter = new AuthRouter();
     const queueRouter = new QueueRouter();
 <<<<<<< HEAD
+<<<<<<< HEAD
     const seedRouter = new SeedRouter();
 =======
     const searchRouter = new SearchRouter();
 >>>>>>> feat/search
+=======
+    const profileRouter = new ProfileRouter();
+>>>>>>> feat/profile
 
     this.server.use(
       cors(),
@@ -43,10 +51,14 @@ export class App {
       authRouter.getRoute(),
       queueRouter.getRoute(),
 <<<<<<< HEAD
+<<<<<<< HEAD
       seedRouter.getRoute()
 =======
       searchRouter.getRoute()
 >>>>>>> feat/search
+=======
+      profileRouter.getRoute(),
+>>>>>>> feat/profile
     );
   }
 
