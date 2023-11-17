@@ -17,7 +17,6 @@ export class ProfileController {
 
     updateProfile(){
         return async (req: Request, res: Response) => {
-        
             const result = await fetch(`http://tubes-php-app:80/public/profile?user_id=${req.body.idUser}`, {
                 method: "post",
                 headers: {
