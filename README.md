@@ -3,8 +3,7 @@
 ## Deskripsi Singkat 
 Web Service pada repository ini merupakan Web Service berbasis protokol REST yang menyediakan layanan tambahan untuk web php yang telah dibuat sebelumnya. Web Service ini memberikan layanan bagi pengguna dengan akses premium.
 
-## Skema Basis Data
-Berikut adalah skema basis data pada web service ini : 
+## Skema Basis Data 
 ![](./docs/skema-basis-data.png)
 
 ## Endpoint API 
