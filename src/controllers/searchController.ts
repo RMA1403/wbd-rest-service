@@ -35,6 +35,10 @@ export class SearchController {
                         contains: req.query.keyword as string ?? undefined,
                         mode: 'insensitive',
                     },
+                    description: {
+                        contains: req.query.keyword as string ?? undefined,
+                        mode: 'insensitive',
+                    },
                     category: genre as Category ? genre as Category : undefined,
                 }
             });
@@ -91,6 +95,10 @@ export class SearchController {
                 where: {
                     PremiumPodcast: {
                         category: genre as Category ?? undefined,
+                        title: {
+                            contains: req.query.keyword as string ? req.query.keyword as string : undefined,
+                            mode: 'insensitive',
+                        }
                     },
                     title: {
                         contains: req.query.keyword as string ? req.query.keyword as string : undefined,
