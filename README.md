@@ -44,8 +44,8 @@ Berikut adalah endpoint yang dapat diakses untuk mengakses layanan dari service 
 | --------------------------| ---------|
 | Endpoint Queue | 13521149 |
 | Endpoint Autentikasi | 13521149  |
-| |  |
-| |  |
+| Endpoint CRUD Premium Podcast | 13521149  |
+| Endpoint CRUD Premium Episode | 13521149  |
 | |  |
 | |  |
 | |  |
